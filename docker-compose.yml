@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+  web:
+    build: ../olx-clone
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    networks:
+      - network-backend
+  api:
+    build: ../olx-clone-api
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+    networks:
+      - network-backend
+  db:
+    image: postgres:14.1-alpine
+    container_name: postgresql
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=cinder
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+networks:
+  network-backend:
+
+volumes:
+  db:
+    driver: local
