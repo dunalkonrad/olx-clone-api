@@ -19,17 +19,27 @@ services:
     networks:
       - network-backend
   db:
-    image: postgres:14.1-alpine
+    image: postgres:15.1
     container_name: postgresql
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DATABASE=cinder
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_HOST=host.docker.internal
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
+      - ./db:/docker-entrypoint-initdb.d/
       - db:/var/lib/postgresql/data
+  db-manage:
+    image: dpage/pgadmin4
+    container_name: postgres-pgadmin
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "80:80"
 
 networks:
   network-backend:
