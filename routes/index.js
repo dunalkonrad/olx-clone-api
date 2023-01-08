@@ -1,7 +1,7 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -23,9 +23,30 @@ router.post('/register', (req, res) => {
             console.error(err);
             return res.status(500).send('Błąd tworzenia nowego użytkownika');
         }
-
         res.send(result.rows[0]);
     });
+});
+
+router.post('/login', (req, res) => {
+    const { email, password } = req.body;
+
+    pool.query('SELECT * FROM USERS WHERE email = $1', [email])
+        .then((result) => {
+            const user = result.rows[0];
+            if (!user) {
+                return res.status(401).send('Nieprawidłowe dane logowania');
+            }
+            bcrypt.compare(password, user.password)
+                .then((isMatch) => {
+                    if (!isMatch) {
+                        return res.status(401).send('Nieprawidłowe dane logowania');
+                    }
+                    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+                        expiresIn: 86400,
+                    });
+                    return res.json({ token });
+                });
+        });
 });
 
 module.exports = router;

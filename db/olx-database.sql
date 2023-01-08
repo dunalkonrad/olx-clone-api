@@ -29,7 +29,7 @@ CREATE TABLE CATEGORY (
 );
 
 CREATE TABLE ADVERTISEMENT (
-                               ID SERIAL PRIMARY KEY,
+                               ID_ADVERTISEMENT SERIAL PRIMARY KEY,
                                TITLE VARCHAR(255) NOT NULL,
                                DESCRIPTION VARCHAR(255),
                                PRICE FLOAT,
