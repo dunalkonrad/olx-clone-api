@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const { Pool } = require('pg');
 
 const pool = new Pool({
-    connectionString: 'postgresql://admin:admin@localhost:5432/olx',
+    connectionString: 'postgresql://admin:admin@host.docker.internal:5432/olx',
 });
 
 router.get("/", (req, res) => {
