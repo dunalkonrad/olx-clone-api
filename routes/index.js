@@ -13,10 +13,10 @@ router.get("/", (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    const { username, surname, password, email, phone } = req.body;
+    const { username, surname, hashedPassword, email, phone } = req.body;
 
     const query = 'INSERT INTO USERS (name, surname, password, email, phone ) VALUES ($1, $2, $3, $4, $5) RETURNING *';
-    const values = [username, surname, password, email, phone];
+    const values = [username, surname, hashedPassword, email, phone];
 
     pool.query(query, values, (err, result) => {
         if (err) {
@@ -27,26 +27,24 @@ router.post('/register', (req, res) => {
     });
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
-    pool.query('SELECT * FROM USERS WHERE email = $1', [email])
-        .then((result) => {
-            const user = result.rows[0];
-            if (!user) {
-                return res.status(401).send('Nieprawidłowe dane logowania');
-            }
-            bcrypt.compare(password, user.password)
-                .then((isMatch) => {
-                    if (!isMatch) {
-                        return res.status(401).send('Nieprawidłowe dane logowania');
-                    }
-                    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-                        expiresIn: 86400,
-                    });
-                    return res.json({ token });
-                });
-        });
+    const query = 'SELECT email, password FROM USERS WHERE email = $1';
+    const values = [email];
+
+    try {
+        const { rows } = await pool.query(query, values);
+        const user = rows[0];
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ message: 'Nieprawidłowy email lub hasło' });
+        }
+        const token = jwt.sign({ userId: user.id }, "secret", { expiresIn: '1d' });
+        return res.json({ token });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Wystąpił błąd podczas próby logowania' });
+    }
 });
 
 module.exports = router;

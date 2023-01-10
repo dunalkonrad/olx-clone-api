@@ -7,7 +7,7 @@ CREATE TABLE USERS (
                        ID_USER SERIAL PRIMARY KEY,
                        NAME VARCHAR(255) NOT NULL,
                        SURNAME VARCHAR(255) NOT NULL,
-                       PASSWORD VARCHAR(50) NOT NULL,
+                       PASSWORD VARCHAR(255) NOT NULL,
                        EMAIL VARCHAR(255) NOT NULL,
                        PHONE NUMERIC(20) NOT NULL
 );
