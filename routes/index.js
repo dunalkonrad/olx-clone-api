@@ -47,11 +47,47 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/add-advertisement', async (req, res) => {
-    const { title, photo, description, price, email, phone } = req.body;
+router.get('/get-city', (req, res) => {
+    const query = 'SELECT name FROM city';
 
-    const query = 'INSERT INTO ADVERTISEMENT (title, photo, description, price, email, phone ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-    const values = [title, photo, description, price, email, phone];
+    pool.query(query, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(404).send('Błąd pobrania miast');
+        }
+        res.status(200).json(result.rows);
+    });
+});
+
+router.get('/get-province', (req, res) => {
+    const query = 'SELECT name FROM province';
+
+    pool.query(query, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(404).send('Błąd pobrania województw');
+        }
+        res.status(200).json(result.rows);
+    });
+});
+
+router.get('/get-category', (req, res) => {
+    const query = 'SELECT name FROM category';
+
+    pool.query(query, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(404).send('Błąd pobrania kategorii');
+        }
+        res.status(200).json(result.rows);
+    });
+});
+
+router.post('/add-advertisement', async (req, res) => {
+    const { title, category, photo, description, city, province, email, username, phone, price } = req.body;
+
+    const query = 'INSERT INTO ADVERTISEMENT ( title, category, photo, description, city, province, email, username, phone, price ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+    const values = [title, category, photo, description, city, province, email, username, phone, price];
 
     pool.query(query, values, (err, result) => {
         if (err) {
