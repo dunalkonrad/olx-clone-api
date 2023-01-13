@@ -47,4 +47,20 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/add-advertisement', async (req, res) => {
+    const { title, photo, description, price, email, phone } = req.body;
+
+    const query = 'INSERT INTO ADVERTISEMENT (title, photo, description, price, email, phone ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+    const values = [title, photo, description, price, email, phone];
+
+    pool.query(query, values, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Błąd dodawania nowego ogłoszenia');
+        }
+        res.send(result.rows[0]);
+    });
+});
+
+
 module.exports = router;
