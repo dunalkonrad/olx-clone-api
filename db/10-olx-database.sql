@@ -85,7 +85,7 @@ INSERT INTO CITY (NAME) VALUES
                                 ('Kraków'),
                                 ('Rzeszów'),
                                 ('Opole'),
-                                ('Wrocłąw'),
+                                ('Wrocław'),
                                 ('Łódź'),
                                 ('Poznań'),
                                 ('Katowice'),

@@ -98,5 +98,16 @@ router.post('/add-advertisement', async (req, res) => {
     });
 });
 
+router.get('/get-advertisement', (req, res) => {
+    const query = 'SELECT * FROM ADVERTISEMENT';
+
+    pool.query(query, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(404).send('Błąd pobrania kategorii');
+        }
+        res.status(200).json(result.rows);
+    });
+});
 
 module.exports = router;
