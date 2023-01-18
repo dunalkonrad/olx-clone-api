@@ -47,49 +47,49 @@ CREATE TABLE ADVERTISEMENT
     CATEGORY         VARCHAR(255) NOT NULL
 );
 
-INSERT INTO CATEGORY (NAME) VALUES
-                                  ('motoryzacja'),
-                                  ('nieruchomości'),
-                                  ('praca'),
-                                  ('dom_i_ogród'),
-                                  ('elektronika'),
-                                  ('moda'),
-                                  ('rolnictwo'),
-                                  ('zwierzęta'),
-                                  ('dla_dzieci');
+INSERT INTO CATEGORY (NAME)
+VALUES ('Motoryzacja'),
+       ('Nieruchomości'),
+       ('Praca'),
+       ('Dom i ogród'),
+       ('Elektronika'),
+       ('Moda'),
+       ('Rolnictwo'),
+       ('Zwierzęta'),
+       ('Dla dzieci');
 
-INSERT INTO PROVINCE (NAME) VALUES
-                                  ('dolnośląskie'),
-                                  ('kujawsko-pomorskie'),
-                                  ('lubelskie'),
-                                  ('lubuskie'),
-                                  ('łódzkie'),
-                                  ('małopolskie'),
-                                  ('mazowieckie'),
-                                  ('opolskie'),
-                                  ('podkarpackie'),
-                                  ('podlaskie'),
-                                  ('pomorskie'),
-                                  ('śląskie'),
-                                  ('świętokrzyskie'),
-                                  ('warmińsko-mazurskie'),
-                                  ('wielkopolskie'),
-                                  ('zachodniopomorskie');
+INSERT INTO PROVINCE (NAME)
+VALUES ('dolnośląskie'),
+       ('kujawsko-pomorskie'),
+       ('lubelskie'),
+       ('lubuskie'),
+       ('łódzkie'),
+       ('małopolskie'),
+       ('mazowieckie'),
+       ('opolskie'),
+       ('podkarpackie'),
+       ('podlaskie'),
+       ('pomorskie'),
+       ('śląskie'),
+       ('świętokrzyskie'),
+       ('warmińsko-mazurskie'),
+       ('wielkopolskie'),
+       ('zachodniopomorskie');
 
-INSERT INTO CITY (NAME) VALUES
-                                ('Warszawa'),
-                                ('Szczecin'),
-                                ('Lublin'),
-                                ('Kielce'),
-                                ('Gdańsk'),
-                                ('Kraków'),
-                                ('Rzeszów'),
-                                ('Opole'),
-                                ('Wrocław'),
-                                ('Łódź'),
-                                ('Poznań'),
-                                ('Katowice'),
-                                ('Radom'),
-                                ('Tarnobrzeg'),
-                                ('Elbląg'),
-                                ('Bydgoszcz');
+INSERT INTO CITY (NAME)
+VALUES ('Warszawa'),
+       ('Szczecin'),
+       ('Lublin'),
+       ('Kielce'),
+       ('Gdańsk'),
+       ('Kraków'),
+       ('Rzeszów'),
+       ('Opole'),
+       ('Wrocław'),
+       ('Łódź'),
+       ('Poznań'),
+       ('Katowice'),
+       ('Radom'),
+       ('Tarnobrzeg'),
+       ('Elbląg'),
+       ('Bydgoszcz');
