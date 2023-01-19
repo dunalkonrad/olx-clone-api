@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 router.post('/register', (req, res) => {
     const {username, surname, hashedPassword, email, phone} = req.body;
 
-    const query = 'INSERT INTO USERS (name, surname, password, email, phone ) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+    const query = 'INSERT INTO USERS (name, surname, password, email, phone) VALUES ($1, $2, $3, $4, $5) RETURNING *';
     const values = [username, surname, hashedPassword, email, phone];
 
     pool.query(query, values, (err, result) => {
@@ -86,7 +86,7 @@ router.get('/get-category', (req, res) => {
 router.post('/add-advertisement', async (req, res) => {
     const {title, category, photo, description, city, province, email, username, phone, price} = req.body;
 
-    const query = 'INSERT INTO ADVERTISEMENT ( title, category, photo, description, city, province, email, username, phone, price ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
+    const query = 'INSERT INTO ADVERTISEMENT (title, category, photo, description, city, province, email, username, phone, price) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *';
     const values = [title, category, photo, description, city, province, email, username, phone, price];
 
     pool.query(query, values, (err, result) => {
@@ -119,6 +119,18 @@ router.get('/users', (req, res) => {
             res.status(200).json(result.rows);
         }
     });
+});
+
+router.get("/search", async (req, res) => {
+    const { q, caseInsensitive } = req.query;
+    let query;
+    if (caseInsensitive) {
+        query = `SELECT * FROM ADVERTISEMENT WHERE title ILIKE '%${q}%' OR description ILIKE '%${q}%'`;
+    } else {
+        query = `SELECT * FROM ADVERTISEMENT WHERE title LIKE '%${q}%' OR description LIKE '%${q}%'`;
+    }
+    const result = await pool.query(query);
+    res.send(result.rows);
 });
 
 module.exports = router;
