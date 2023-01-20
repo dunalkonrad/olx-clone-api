@@ -131,25 +131,18 @@ router.get('/users', (req, res) => {
 });
 
 router.get('/search', async (req, res) => {
-    const { q, caseInsensitive } = req.query;
-    let query;
-    if (caseInsensitive) {
-        query = `SELECT * FROM ADVERTISEMENT WHERE title ILIKE '%${q}%' OR description ILIKE '%${q}%'`;
-    } else {
-        query = `SELECT * FROM ADVERTISEMENT WHERE title LIKE '%${q}%' OR description LIKE '%${q}%'`;
-    }
+    const { q } = req.query;
+
+    const query = `SELECT * FROM ADVERTISEMENT WHERE title ILIKE '%${q}%' OR description ILIKE '%${q}%'`;
+
     const result = await pool.query(query);
     res.send(result.rows);
 });
 
 router.get('/search-category', async (req, res) => {
-    const { q, caseInsensitive } = req.query;
-    let query;
-    if (caseInsensitive) {
-        query = `SELECT * FROM ADVERTISEMENT WHERE category ILIKE '%${q}%'`;
-    } else {
-        query = `SELECT * FROM ADVERTISEMENT WHERE category LIKE '%${q}%'`;
-    }
+    const { q } = req.query;
+
+    const query = `SELECT * FROM ADVERTISEMENT WHERE category ILIKE '%${q}%'`;
 
     const result = await pool.query(query);
     res.send(result.rows)
