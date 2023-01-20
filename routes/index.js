@@ -104,11 +104,20 @@ router.get('/get-advertisement', (req, res) => {
     pool.query(query, (err, result) => {
         if (err) {
             console.error(err);
-            return res.status(404).send('Błąd pobrania kategorii');
+            return res.status(404).send('Błąd pobrania ogloszenia');
         }
         res.status(200).json(result.rows);
     });
 });
+
+router.get(`/get-advertisement/:id_advertisement`, async (req, res) => {
+    const id = req.params.id_advertisement;
+    const query = `SELECT * FROM ADVERTISEMENT WHERE id_advertisement = ${id}`;
+
+    const result = await pool.query(query);
+    res.send(result.rows[0])
+});
+
 router.get('/users', (req, res) => {
     const query = 'SELECT * FROM USERS';
 
